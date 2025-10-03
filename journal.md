@@ -28,4 +28,6 @@ Exercice 2.b
 - git pull 
 
 Exercice 2.c
-- 
+- git add journal.md
+- git commit -m "message"
+- git push
