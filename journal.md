@@ -249,3 +249,32 @@ fi
 done < $FICHIER_URLS                              #indique le fichier en entrée
 echo " $OK URLs et $NOK lignes douteuses"         #indique le nombre d'URLs valides et non valides
 ```
+
+# Pour le 05/11
+
+Pour cause médicale, je n'ai malheureusement pas pu assister au dernier cours ; j'ai donc commencé par rattraper ce que j'avais raté, avant de me pencher sur les exercices.
+
+## Exercice 1
+
+### Question 1
+`cat` permet d'afficher un fichier en entier. Or, ici, nous cherchons à lire un fichier ligne par ligne (ce que permet la boucle while), afin d'y ajouter des informations avant et après chaque URL, sur la même ligne.
+
+### Question 2
+Pour transformer `urls/fr.txt` en paramètre de script, nous pouvons créer une variable `URL=$1` au début du script (qui correspond à un argument 1 à renseigner à chaque lancement du script), puis appeler la variable à la place : `done < "$URL"`
+
+### Question 3 
+Pour afficher le numéro de chaque ligne avant l'URL, j'ai initialisé une variable `n` que j'ai initialisée à `1` avant la boucle while. À chaque passage dans la boucle, j'affiche d'abord la valeur de `n`, puis j'incrémente cette variable avec `n=$((n+1))`. Dans la commande `echo`, j'utilise `\t` (avec l'option `-e`) pour insérer des tabulations entres les différentes valeurs :
+```bash
+echo -e "${n}\t${line}\t${CODE}\t${ENCODAGE}\t${NB_MOTS}"
+``` 
+
+## Exercice 2
+Quelques problèmes que j'ai pu avoir :
+- *301 (redirection)* : j'ai rajouté l'option `-L` à `curl` pour suivre les redirections et obtenir le code final (200)
+- *429* : ajout d'un User-Agent (par défaut : `UA="Mozilla/5.0"`)
+- *Nombre de mot affiché à la mauvaise place (=collé au début de chaque URL)* : causé a priori par `\r`, corrigé avec : `tr -d '\r'`
+
+Commande avec création d'un `.tsv` en sortie : 
+```bash
+bash miniprojet/programmes/miniprojet.sh miniprojet/urls/fr.txt > miniprojet/tableaux/tableau-fr.tsv
+```
