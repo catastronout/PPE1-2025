@@ -278,3 +278,14 @@ Commande avec création d'un `.tsv` en sortie :
 ```bash
 bash miniprojet/programmes/miniprojet.sh miniprojet/urls/fr.txt > miniprojet/tableaux/tableau-fr.tsv
 ```
+
+# Pour le 12/11
+
+J'ai commencé par rattraper le cours de mercredi dernier, que j'ai dû rater également...
+
+Puis j'ai modifié mon script `miniprojet.sh` afin de remplacer la sortie en `tsv` par `html`.
+
+J'ai également 
+- modifier le test qui vérifie le nombre d'arguments (à présent, le script en demande deux),
+- rajouter une ligne pour que '-' soit inscrit dans le tableau si le code HTTP renvoie "000",
+- rajouter une ligne pour que '-' soit noté dans la colonne 'Nombre de mots' si le code HTTP et l'encodage = '-'

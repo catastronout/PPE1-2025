@@ -1,19 +1,21 @@
 #!/bin/bash
 
 # === UTILISATION == 
-# bash miniprojet/programmes/miniprojet.sh miniprojet/urls/fr.txt > miniprojet/tableaux/tableau-fr.tsv
+# bash miniprojet/programmes/miniprojet.sh fr tableau-fr
 
-URL=$1
+FICHIER_URLS=$1
+FICHIER_SORTIE=$2
 
-if (( $# != 1 )); 
+if (( $# != 2 )); 
 then
-	echo "Il manque un argument : le fichier texte contenant les URLs !"
+	echo "Ce script a besoin de deux arguments pour fonctionner !"
 	exit 1
 fi
 
 n=1
 UA="Mozilla/5.0"
 
+{
 echo "<table border=\"1\">
 	<tr>
 		<th>N°</th>
@@ -26,9 +28,19 @@ echo "<table border=\"1\">
 while read -r line;
 do
 	CODE=$(curl -sL -A "$UA" -o /dev/null -w "%{http_code}\n" "$line")
+	[[ -z "$CODE" || "$CODE" == "000" ]] && CODE="-"
+
 	ENCODAGE=$(curl -sIL -A "$UA" "$line" | tr -d '\r' | grep -i "charset" | head -n1 | cut -d= -f2)
+	# Encodage UTF-8 = oui ou non 
+
 	[[ -z "$ENCODAGE" ]] && ENCODAGE="-"
+
 	NB_MOTS=$(curl -sL -A "$UA" "$line" | wc -w)
+	# NB_MOTS=$(cat "tmp.txt" | lynx -dump -stdin -nolist | wc -w)
+	if [[ "$CODE" == "-" && "$ENCODAGE" == "-" ]];
+	then
+		NB_MOTS="-"
+	fi
 	
 	echo "<tr>
 			<td>${n}</td>
@@ -40,6 +52,7 @@ do
 
 	n=$((n+1))
 
-done < "$URL"
+done < "../urls/$FICHIER_URLS.txt"
 
 echo "</table>"
+} > "../tableaux/$FICHIER_SORTIE.html"
