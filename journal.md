@@ -304,3 +304,131 @@ Je vous remercie par avance de bien vouloir prendre en considération ma situati
 # Mercredi 24 décembre / Jeudi 25 décembre
 - La prise en main du framework Bulma m'a demandé un certain temps, notamment afin de bien en comprendre la logique et les usages. Je me suis replongée dans mes cours de L2 TAL pour me remémorer les bases du HTML et du CSS, puis j'ai consulté la documentation officielle de Bulma ainsi que les exemples fournis en cours. Cette démarche m'a permis de concevoir un premier prototype fonctionnel. Compte tenu de mon retard, j'ai choisi de créer un site relativement simple, que je pourrai ensuite enrichir si nécessaire.
 - J'ai ensuite adapté mon script `miniprojet.sh` pour qu'il puisse générer automatiquement le tableau avec le style que j'ai choisi. J'ai simplement rajouté une fonction me permettant d'afficher les badges de couleur sur les code HTTP (200 = vert, 400 = rouge).
+
+## Feuille d'exos - *Git 2 : gérer le travail à plusieurs*
+
+### Exercice 1
+Clarifications de certaines commandes :
+*git checkout* : permet de changer de branche ou de restaurer un fichier à son état précédent 
+*git reset* : permet d'annuler des commits ou de déindexe des fichiers ajoutés avec `git add`, en gardant ou non les modifications 
+*git stash* : permet de mettre de côté temporairement des modifications non pushées, possibilité de les récupérer plus tard avec `git stash pop`
+
+### Exercice 2 
+Checkout du dossier courant pour annuler toutes les modifications depuis le dernier commit :
+
+```bash
+git checkout .
+> Updated 0 paths from the index
+```
+
+Ajout de paragraphes du lorem ipsum au fichier readme :
+
+```bash
+cat "[paragraphes]" >> README.md
+git add README.md
+git commit -m "ajout paragraphes lorem ipsum au fichier readme"
+git push
+```
+
+### Exercice 3
+J'ai supprimé le premier paragraphe du fichier readme via l'interface web.
+
+Ajout de "MIAOU", précédé d'un saut de ligne, à la fin du fichier readme :
+
+```bash
+echo "\nMIAOU" >> README.md
+git add README.md
+git commit -m "ajout de MIAOU au fichier readme"
+git push
+> To github.com:catastronout/test.git
+> ! [rejected]        main -> main (fetch first)
+> error: failed to push some refs to 'github.com:catastronout/test.git'
+> hint: Updates were rejected because the remote contains work that you do not
+> hint: have locally. This is usually caused by another repository pushing to
+> hint: the same ref. If you want to integrate the remote changes, use
+> hint: 'git pull' before pushing again.
+> hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+```
+
+### Exercice 4
+**4.a - Premier temps : annuler le commit**
+J'ai récupéré les métadonnées, vérifié le status du dépôt, puis j'ai fait un reset pour retourner au dernier commit en commun entre le dépôt en ligne et mon dossier local :
+
+```bash
+git fetch
+git status
+On branch main
+> Your branch and 'origin/main' have diverged,
+> and have 1 and 1 different commits each, respectively.
+>  (use "git pull" if you want to integrate the remote branch with yours)
+> nothing to commit, working tree clean
+
+git reset HEAD~1 # car un seul commit d'avance
+> Unstaged changes after reset:
+> M	README.md # le commit a disparu, mais les modifs sont toujours dans le fichier README.md (= non stagée)
+```
+
+**4.b - Deuxième temps : mettre ses modifications de côté**
+Pour mettre la version du fichier readme avec "MIAOU" à la fin :
+```bash
+git stash
+> Saved working directory and index state WIP on main: d9cf108 ajout paragraphes lorem ipsum au fichier readme
+```
+
+**4.c - Troisième temps : resynchroniser le dépît et réappliquer les changements**
+Vérifier que le dépôt est "propre" avec `git status`, lister les modifications dans le stash avec `git stash list`, les visualiser avec `git stash show -p 0`, puis pull :
+
+```bash
+git status
+> On branch main
+> Your branch is behind 'origin/main' by 1 commit, and can be fast-forwarded.
+>   (use "git pull" to update your local branch)
+> nothing to commit, working tree clean
+
+git stash list
+> stash@{0}: WIP on main: d9cf108 ajout paragraphes lorem ipsum au fichier readme
+
+git stash show -p 0
+> diff --git a/README.md b/README.md
+> index 9b9dc2e..a870212 100644
+> --- a/README.md
+> +++ b/README.md
+> @@ -7,3 +7,5 @@ In bibendum nunc non aliquet placerat. Aliquam commodo placerat sem sed dignissi
+>  Cras lobortis quam turpis, et vehicula risus elementum in. Mauris tortor eros, pretium nec vulputate a, aliquam gravida velit. Sed mauris magna, congue vitae feugiat ac, suscipit at velit. Maecenas ac elementum leo. Duis gravida vestibulum interdum. Curabitur sem ante, dictum et odio ac, tristique finibus augue. Etiam blandit sem a erat congue, vitae varius elit dignissim. Phasellus sit amet enim id nisl blandit commodo sed eget arcu. Nulla sed vestibulum arcu. Nullam laoreet nibh massa, et elementum enim lacinia non. Donec sit amet risus elementum, aliquet erat eleifend, feugiat sem. In libero mi, ornare vitae massa at, gravida vulputate urna.
+ 
+>  Vivamus ac augue sem. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce ornare dapibus erat vel ultricies. Suspendisse mattis laoreet felis aliquet pretium. Aenean condimentum condimentum eleifend. Quisque diam mauris, aliquet sollicitudin quam vitae, ultrices aliquet sapien. Sed eu dignissim nunc. Morbi elementum aliquam viverra.
+> +
+> +MIAOU
+
+git pull
+> Updating d9cf108..fbfe581
+> Fast-forward
+>  README.md | 2 --
+>  1 file changed, 2 deletions(-)
+```
+
+**4.d - Dernier temps : resynchroniser le dépôt et réappliquer les changements**
+Afficher les changements avec `git stash pop`, puis add, commit, push et vérification avec `git status` :
+
+```bash
+git stash pop
+>  Auto-merging README.md
+> On branch main
+> Your branch is up to date with 'origin/main'.
+
+> Changes not staged for commit:
+>   (use "git add <file>..." to update what will be committed)
+>   (use "git restore <file>..." to discard changes in working directory)
+> 	modified:   README.md
+> no changes added to commit (use "git add" and/or "git commit -a")
+> Dropped refs/stash@{0} (b837cfa079736b932270587c3440f5ccf7d4bbf8)
+
+git add README.md
+git commit -m "ajout de MIAOU au fichier readme"
+git push
+
+git status
+> On branch main
+> Your branch is up to date with 'origin/main'.
+> nothing to commit, working tree clean
+```
