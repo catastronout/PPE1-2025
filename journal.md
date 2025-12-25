@@ -289,3 +289,18 @@ J'ai également
 - modifier le test qui vérifie le nombre d'arguments (à présent, le script en demande deux),
 - rajouter une ligne pour que '-' soit inscrit dans le tableau si le code HTTP renvoie "000",
 - rajouter une ligne pour que '-' soit noté dans la colonne 'Nombre de mots' si le code HTTP et l'encodage = '-'
+
+# Jeudi 18 décembre
+
+À cause de mes problèmes de santé chroniques, j'ai malheureusement pris du retard dans les rendus pour ce cours. J'en suis sincèrement désolée.
+Afin d'anticiper les conséquences éventuelles de ce retard, j'ai tenté de vous contacter à plusieurs reprises pour savoir si celui-ci entraînerait une pénalisation, notamment dans le but d'effectuer, si nécessaire, les démarches de la mission handicap de la Sorbonne Nouvelle pour faire une demande de CT. À ce jour, je n'ai cependant pas encore obtenu de réponse à ce sujet...
+À titre informatif, la mission handicap de l'INALCO m'a accordé la possibilité de demander des délais supplémentaires pour les rendus des devoirs maison, dont les modalités sont à définir avec les enseignants. J'ai essayé de faire valoir cette possibilité également auprès de la Sorbonne Nouvelle, mais je suis toujours dans l'attente d'un retour de leur part...
+Je peux bien entendu vous transmettre, si besoin, mon PAEH de l'INALCO, qui précise les amménagements dont je bénéficie.
+Je vous remercie par avance de bien vouloir prendre en considération ma situation médicale dans l'évaluation de la partie "travail individuel", et reste pleinement disposée à échanger avec vous afin de trouver une solution adaptée.
+
+- Je me suis rendue compte que j'avais oublié de créer le tag `miniprojet-1-revu`, étant donné que je n'avais aucune modification sur mon dépôt suite à la correction faite en cours. J'avais entre-temps créer le tag `miniprojet-2`. J'ai réussi à créer ce tag au même endroit exactement où se situe le tag `miniprojet-1` grâce à son identifiant SHA.
+- J'ai rattrapé l'ensemble des cours que j'ai manqués. Je vais maintenant me pencher sur tous les TPs.
+
+# Mercredi 24 décembre / Jeudi 25 décembre
+- La prise en main du framework Bulma m'a demandé un certain temps, notamment afin de bien en comprendre la logique et les usages. Je me suis replongée dans mes cours de L2 TAL pour me remémorer les bases du HTML et du CSS, puis j'ai consulté la documentation officielle de Bulma ainsi que les exemples fournis en cours. Cette démarche m'a permis de concevoir un premier prototype fonctionnel. Compte tenu de mon retard, j'ai choisi de créer un site relativement simple, que je pourrai ensuite enrichir si nécessaire.
+- J'ai ensuite adapté mon script `miniprojet.sh` pour qu'il puisse générer automatiquement le tableau avec le style que j'ai choisi. J'ai simplement rajouté une fonction me permettant d'afficher les badges de couleur sur les code HTTP (200 = vert, 400 = rouge).
